@@ -1,5 +1,5 @@
 const SpecialOffer = () => {
-  return <div></div>;
+  return <div>sco</div>;
 };
 
 export default SpecialOffer;
