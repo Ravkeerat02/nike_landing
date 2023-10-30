@@ -6,6 +6,7 @@ import SpecialOffer from "./SpecialOffer";
 import PopularProduct from "./PopularProduct";
 import Services from "./Services";
 import SuperQuality from "./SuperQuality";
+import ContactUs from "./ContactUs";
 
 export {
   Hero,
@@ -16,4 +17,5 @@ export {
   PopularProduct,
   Services,
   SuperQuality,
+  ContactUs,
 };
