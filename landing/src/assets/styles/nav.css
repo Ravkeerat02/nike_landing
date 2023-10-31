@@ -37,4 +37,14 @@
   .menu-container.open ul li {
     margin-bottom: 1rem;
   }
+
+  .max-lg\:hidden {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  .open {
+    display: block !important; /* Use !important only if necessary to override other styles */
+  }
 }
