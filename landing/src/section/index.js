@@ -7,6 +7,7 @@ import PopularProduct from "./PopularProduct";
 import Services from "./Services";
 import SuperQuality from "./SuperQuality";
 import ContactUs from "./ContactUs";
+// import StripePayment from "./StripePayment";
 
 export {
   Hero,
@@ -18,4 +19,5 @@ export {
   Services,
   SuperQuality,
   ContactUs,
+  // StripePayment,
 };

@@ -1,0 +1,40 @@
+/* Nav.css */
+.menu-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  display: none;
+}
+
+/* Media query for small screens */
+@media screen and (max-width: 767px) {
+  .menu-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .menu-container.open {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .menu-container.open ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  .menu-container.open ul li {
+    margin-bottom: 1rem;
+  }
+}
