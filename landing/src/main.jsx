@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { ToastProvider } from "react-toast-notifications";
 import App from "./App.jsx";
 import "./index.css";
 
@@ -12,7 +13,9 @@ const stripePromise = loadStripe(
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Elements stripe={stripePromise}>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </Elements>
   </React.StrictMode>,
   document.getElementById("root")

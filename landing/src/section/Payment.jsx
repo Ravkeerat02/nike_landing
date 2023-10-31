@@ -1,27 +1,58 @@
+import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { useToasts } from "react-toast-notifications";
 import { products } from "../constants";
+import Notification from "../components/Notifications";
 
-const CheckoutForm = () => {
+const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const { addToast } = useToasts();
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     if (!stripe || !elements) {
+      setLoading(false);
       return;
     }
 
-    const { token, error } = await stripe.createToken(
-      elements.getElement(CardElement)
-    );
+    try {
+      const { token, error } = await stripe.createToken(
+        elements.getElement(CardElement)
+      );
 
-    if (error) {
-      console.error(error);
-    } else {
-      // Send the token to your server for payment processing
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      // Send the token to your server for payment processing (simulate success here)
       console.log(token);
       console.log("Price:", products[0].price);
+
+      // Simulate a successful payment for demonstration purposes
+      setPaymentSuccess(true);
+
+      // Show success notification
+      addToast("Payment successful! Thank you for your purchase.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    } catch (error) {
+      console.error(error);
+      setError(error.message);
+
+      // Show error notification
+      addToast(`Payment failed: ${error.message}`, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,36 +64,30 @@ const CheckoutForm = () => {
           <CardElement className="w-full outline-none" />
         </div>
 
+        {error && (
+          <div className="text-red-500 text-sm text-center">{error}</div>
+        )}
+
         <div className="flex flex-col md:flex-row md:justify-between items-center space-y-4 md:space-y-0">
           <button
             type="submit"
-            className="w-full md:w-auto btn-primary"
-            disabled={!stripe}
+            className={`w-full md:w-auto btn-primary ${
+              loading && "opacity-50"
+            }`}
+            disabled={!stripe || loading}
           >
-            Pay ${products[0].price} with Credit Card
+            {loading
+              ? "Processing..."
+              : `Pay ${products[0].price} with Credit Card`}
           </button>
 
-          {/* PayPal Payment Option */}
-          <button
-            type="button"
-            className="w-full md:w-auto btn-secondary"
-            disabled={!stripe}
-          >
-            Pay with PayPal
-          </button>
-
-          {/* Other Payment Options */}
-          <button
-            type="button"
-            className="w-full md:w-auto btn-tertiary"
-            disabled={!stripe}
-          >
-            Other Payment Options
-          </button>
+          {/* Add more payment options buttons here (PayPal, Google Pay, Apple Pay, etc.) */}
         </div>
       </form>
+
+      {paymentSuccess && <Notification />}
     </div>
   );
 };
 
-export default CheckoutForm;
+export default PaymentForm;
